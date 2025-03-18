@@ -11,4 +11,7 @@
     ],
     'installable': True,
     'application': True,
+    'controllers': [  # Menambahkan controllers agar dikenali oleh Odoo
+        'controllers/material_controller.py',
+    ],
 }

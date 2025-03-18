@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="action_material" model="ir.actions.act_window">
+        <field name="name">Materials</field>
+        <field name="res_model">material.management</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_material_root" name="Material Management"/>
+    
+    <menuitem id="menu_material" name="Materials" parent="menu_material_root" action="action_material"/>
+    
+</odoo>

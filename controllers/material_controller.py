@@ -8,6 +8,42 @@ class MaterialController(http.Controller):
     def web(self, **kw):
         return "Hello, World"
 
+    @http.route('/api/materials/supplier', type='http', auth='public', methods=['GET'], csrf=False)
+    def material_supplier(self):
+        try:
+            suppliers = request.env['res.partner'].sudo().search([])
+            supplier_list = [
+                {'id': supplier.id, 'name': supplier.name}
+                for supplier in suppliers
+            ]
+
+            return Response(
+                json.dumps({'suppliers': supplier_list}),
+                content_type='application/json',
+                status=200
+            )
+
+        except Exception as e:
+            return Response(
+                json.dumps({'error': str(e)}),
+                content_type='application/json',
+                status=500
+            )
+        
+    @http.route('/api/materials/type', type='http', auth='public', methods=['GET'], csrf=False)
+    def material_type(self):
+        try:
+            material_types = [
+                {'type': 'fabric', 'name': 'Fabric'},
+                {'type': 'jeans', 'name': 'Jeans'},
+                {'type': 'cotton', 'name': 'Cotton'}
+            ]
+
+            return Response(json.dumps({"material_type":material_types}), content_type='application/json', status=200)
+
+        except Exception as e:
+            return request.make_response(json.dumps({'message': e}), headers=[('Content-Type', 'application/json')])
+        
     # Endpoint untuk mendapatkan semua data material
     @http.route('/api/materials', type='http', auth='public', methods=['GET'], csrf=False)
     def get_materials(self, **kwargs):

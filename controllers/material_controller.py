@@ -64,6 +64,9 @@ class MaterialController(http.Controller):
 
             if missing_fields:
                 return {"error": f"Missing required fields: {', '.join(missing_fields)}"}
+            
+            if post['buy_price'] < 100:
+                return {'error': 'Material buy price must be at least 100'}
 
             # Buat record baru di model 'material.management'
             material = request.env["material.management"].sudo().create({
@@ -83,3 +86,30 @@ class MaterialController(http.Controller):
         except Exception as e:
             return {"error": str(e)}
 
+    # Endpoint untuk memperbarui material
+    @http.route('/api/materials/<int:material_id>', type='json', auth='public', methods=['PUT'], csrf=False)
+    def update_material(self, material_id):
+        try:
+            data = request.jsonrequest  # Ambil data JSON dari body request
+            print("update data", data)  # Debugging
+
+            # Ambil material berdasarkan ID
+            material = request.env['material.management'].sudo().browse(material_id)
+
+            if not material.exists():
+                return {'error': 'Material not found'}
+            
+            if data['buy_price'] < 100:
+                return {'error': 'Material buy price must be at least 100'}
+
+            # Update hanya field yang dikirim dalam request
+            material.write({key: value for key, value in data.items() if key in material._fields})
+
+            return {
+                'message': 'Material updated successfully',
+                'id': material.id,
+                'updated_fields': list(data.keys())
+            }
+
+        except Exception as e:
+            return {'error': str(e)}

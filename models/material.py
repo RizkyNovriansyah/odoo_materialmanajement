@@ -1,4 +1,5 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, _
+from odoo.exceptions import ValidationError
 
 class MaterialData(models.Model):
     _name = 'material.management'  # Nama teknis model
@@ -18,4 +19,4 @@ class MaterialData(models.Model):
     def _check_buy_price(self):
         for record in self:
             if record.buy_price < 100:
-                raise ValidationError("Material buy price must be at least 100.")
+                raise ValidationError(_("Material buy price must be at least 100."))

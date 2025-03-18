@@ -1,5 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+    <record id="material_form" model="ir.ui.view">
+        <field name="name">material.form</field>
+        <field name="model">material.management</field>
+        <field name="arch" type="xml">
+            <form string="Material">
+                
+                <sheet>
+                    <group>
+                        <field name="name" required="1"/>
+                        <field name="code" required="1"/>
+                        <field name="material_type" required="1"/>
+                        <field name="buy_price" required="1"/>
+                        <field name="supplier_id" required="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
 
     <record id="action_material" model="ir.actions.act_window">
         <field name="name">Materials</field>

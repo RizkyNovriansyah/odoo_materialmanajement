@@ -41,4 +41,13 @@ class MaterialController(http.Controller):
         }
         return Response(json.dumps(data), content_type='application/json', status=200)
 
-    
+
+    # Endpoint untuk menghapus material
+    @http.route('/api/materials/<int:material_id>', type='http', auth='public', methods=['DELETE'], csrf=False)
+    def delete_material(self, material_id, **kwargs):
+        material = request.env['material.management'].sudo().browse(material_id)
+        if not material.exists():
+            return request.make_response(json.dumps({'error': 'Material not found'}), headers=[('Content-Type', 'application/json')])
+
+        material.unlink()
+        return request.make_response(json.dumps({'message': 'Material deleted'}), headers=[('Content-Type', 'application/json')])

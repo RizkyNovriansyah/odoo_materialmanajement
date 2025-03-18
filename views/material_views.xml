@@ -19,6 +19,19 @@
         </field>
     </record>
 
+    <record id="material_tree" model="ir.ui.view">
+        <field name="name">material.tree</field>
+        <field name="model">material.management</field>
+        <field name="arch" type="xml">
+            <tree string="Material">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="material_type"/>
+                <field name="buy_price"/>
+                <field name="supplier_id"/>
+            </tree>
+        </field>
+    </record>
 
     <record id="action_material" model="ir.actions.act_window">
         <field name="name">Materials</field>

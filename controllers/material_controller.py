@@ -51,3 +51,35 @@ class MaterialController(http.Controller):
 
         material.unlink()
         return request.make_response(json.dumps({'message': 'Material deleted'}), headers=[('Content-Type', 'application/json')])
+
+    # Endpoint untuk menambahkan material baru
+    @http.route('/api/materials', type='json', auth='public', methods=['POST'], csrf=False)
+    def create_material(self):
+        try:
+            post = request.jsonrequest 
+            print("post",post)
+            # Pastikan semua field yang diperlukan tersedia
+            required_fields = ["name", "code", "material_type", "buy_price", "supplier_id"]
+            missing_fields = [field for field in required_fields if field not in post]
+
+            if missing_fields:
+                return {"error": f"Missing required fields: {', '.join(missing_fields)}"}
+
+            # Buat record baru di model 'material.management'
+            material = request.env["material.management"].sudo().create({
+                "name": post["name"],
+                "code": post["code"],
+                "material_type": post["material_type"],
+                "buy_price": float(post["buy_price"]),
+                "supplier_id": int(post["supplier_id"])
+            })
+
+            return {
+                "message": "Material created successfully",
+                "id": material.id,
+                "name": material.name
+            }
+
+        except Exception as e:
+            return {"error": str(e)}
+

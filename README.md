@@ -1,6 +1,9 @@
 # odoo_materialmanajement
 odoo_materialmanajement
 
+Dokumentasi Pengembangan
+https://docs.google.com/document/d/1tjfOiZzuekkCo2oWyAm6zYfN7yJ_tKHMQCtbgKMRv6k/edit?tab=t.0 
+
 chmod -R 755 ~/odoo14/addons/odoo_materialmanagement
 chown -R $(whoami) ~/odoo14/addons/odoo_materialmanagement
 

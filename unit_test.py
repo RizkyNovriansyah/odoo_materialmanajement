@@ -69,6 +69,20 @@ class TestMaterialsAPI(unittest.TestCase):
         self.assertIn("results", data)
         self.assertGreater(len(data["results"]), 0)
 
+    def test_05_get_materials_list_filtered(self):
+        """Material List dengan type filter"""
+        response = requests.get(BASE_URL, params={"material_type": TestMaterialsAPI.type_code})
+        self.assertEqual(response.status_code, 200)
+
+        data = response.json()
+        self.assertIn("results", data)
+        self.assertGreater(len(data["results"]), 0, "Material list should not be empty")
+
+        # Validasi setiap item memiliki material_type yang sesuai
+        for material in data["results"]:
+            self.assertIn("material_type", material, "Each material should have a material_type field")
+            self.assertEqual(material["material_type"], TestMaterialsAPI.type_code, f"Material type should be '{TestMaterialsAPI.type_code}', but got {material['material_type']}")
+
     def test_06_get_material_by_id(self):
         """Get Material by ID"""
         self.assertIsNotNone(TestMaterialsAPI.material_id, "Material ID tidak tersedia")

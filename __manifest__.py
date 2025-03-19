@@ -7,8 +7,9 @@
     'depends': ['base'],
     'data': [
         'security/ir.model.access.csv',
-        'views/material_views.xml',
+        'views/material_views.xml'
     ],
+    'test': ['tests/test_material_api.py'],
     'installable': True,
     'application': True,
     'controllers': [  # Menambahkan controllers agar dikenali oleh Odoo

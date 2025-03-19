@@ -42,19 +42,27 @@ class MaterialController(http.Controller):
         
     # Endpoint untuk mendapatkan semua data material
     @http.route('/api/materials', type='http', auth='public', methods=['GET'], csrf=False)
-    def get_materials(self, **kwargs):
-        materials = request.env['material.management'].sudo().search([])
-        data = []
-        for material in materials:
-            data.append({
-                'id': material.id,
-                'name': material.name,
-                'code': material.code,
-                'material_type': material.material_type,
-                'buy_price': material.buy_price,
-                'supplier_id': material.supplier_id.id if material.supplier_id else None,
-            })
-        return Response(json.dumps({"results":data}), content_type='application/json', status=200)
+    def get_materials(self, material_type=None, **kwargs):
+        """Endpoint untuk mendapatkan semua data material, bisa difilter berdasarkan material_type"""
+        
+        # Query ke model material.management
+        domain = []
+        if material_type:
+            domain.append(('material_type', '=', material_type))
+
+        materials = request.env['material.management'].sudo().search(domain)
+
+        # Format hasil menjadi JSON
+        data = [{
+            'id': material.id,
+            'name': material.name,
+            'code': material.code,
+            'material_type': material.material_type,
+            'buy_price': material.buy_price,
+            'supplier_id': material.supplier_id.id if material.supplier_id else None,
+        } for material in materials]
+
+        return Response(json.dumps({"results": data}), content_type='application/json', status=200)
 
     # Endpoint untuk mendapatkan data material berdasarkan ID
     @http.route('/api/materials/<int:material_id>', type='http', auth='public', methods=['GET'], csrf=False)

@@ -3,10 +3,6 @@ from odoo.http import request, Response
 import json
 
 class MaterialController(http.Controller):
-    
-    @http.route('/web/material/',website=True,auth='public')
-    def web(self, **kw):
-        return "Hello, World"
 
     @http.route('/api/materials/supplier', type='http', auth='public', methods=['GET'], csrf=False)
     def material_supplier(self):
@@ -18,7 +14,7 @@ class MaterialController(http.Controller):
             ]
 
             return Response(
-                json.dumps({'suppliers': supplier_list}),
+                json.dumps({"results": supplier_list}),
                 content_type='application/json',
                 status=200
             )
@@ -39,7 +35,7 @@ class MaterialController(http.Controller):
                 {'type': 'cotton', 'name': 'Cotton'}
             ]
 
-            return Response(json.dumps({"material_type":material_types}), content_type='application/json', status=200)
+            return Response(json.dumps({"results":material_types}), content_type='application/json', status=200)
 
         except Exception as e:
             return request.make_response(json.dumps({'message': e}), headers=[('Content-Type', 'application/json')])
@@ -58,7 +54,7 @@ class MaterialController(http.Controller):
                 'buy_price': material.buy_price,
                 'supplier_id': material.supplier_id.id if material.supplier_id else None,
             })
-        return Response(json.dumps(data), content_type='application/json', status=200)
+        return Response(json.dumps({"results":data}), content_type='application/json', status=200)
 
     # Endpoint untuk mendapatkan data material berdasarkan ID
     @http.route('/api/materials/<int:material_id>', type='http', auth='public', methods=['GET'], csrf=False)
@@ -75,7 +71,7 @@ class MaterialController(http.Controller):
             'buy_price': material.buy_price,
             'supplier_id': material.supplier_id.id if material.supplier_id else None,
         }
-        return Response(json.dumps(data), content_type='application/json', status=200)
+        return Response(json.dumps({"results":data}), content_type='application/json', status=200)
 
 
     # Endpoint untuk menghapus material

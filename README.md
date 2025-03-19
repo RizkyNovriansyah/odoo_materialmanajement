@@ -10,5 +10,6 @@ python odoo-bin -c ~/odoo14/odoo.conf -u odoo_materialmanajement --log-level=deb
 
 untuk unit testing
 python odoo-bin --test-enable --log-level=test --stop-after-init -d odoo_tes -i odoo_materialmanajement
+python -m unittest ~/odoo14/odoo/addons/odoo_materialmanajement/unit_test.py -v
 
 unarchive setelah menambahkan accessright
